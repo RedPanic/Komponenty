@@ -6,10 +6,13 @@
 package com.mycompany.komponenty;
 
 
+import guitools.GuiTools;
 import squarebean.SquareBeanPanel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -18,6 +21,7 @@ import java.awt.*;
 public class MainWindow extends JFrame {
 
     private Image icon;
+    private List<ImageIcon> tabIcons;
     private JTabbedPane tabs;
     private SquareBeanPanel squareBeanPanel;
 
@@ -30,12 +34,14 @@ public class MainWindow extends JFrame {
         this.setSize(800, 600);
 
         tabs = new JTabbedPane();
+        tabIcons = GuiTools.addIcons("src/main/java/static/");
+
         squareBeanPanel = new SquareBeanPanel();
-        tabs.add("Kwadrat", squareBeanPanel);
+        tabs.addTab("Kwadrat", tabIcons.get(1), squareBeanPanel, "Operacje dla kwadratu");
 
         this.add(tabs);
-
         this.setVisible(true);
     }
+
 
 }
