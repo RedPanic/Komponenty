@@ -61,7 +61,10 @@ public class MainWindow extends JFrame {
                         square.serialize(squareBeanPanel.getFilePathTf().getText());
                     }
                     else{
-                        //TODO wywołanie serializacji i deserializacji
+                        //TODO wywołanie deserializacji
+                        square = square.deserialize(squareBeanPanel.getFilePathTf().getText());
+                        squareBeanPanel.getSideLengthTf().setText(String.valueOf(square.getSideLength()));
+
                     }
 
                 }
