@@ -26,4 +26,9 @@ public class GuiTools {
 
         return icons;
     }
+
+    public static void MessageBox(String msg, String title, int messageType)
+    {
+        JOptionPane.showMessageDialog(new JDialog(), msg, title, messageType);
+    }
 }

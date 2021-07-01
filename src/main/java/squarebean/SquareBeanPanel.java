@@ -4,15 +4,19 @@ import guitools.GuiTools;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class SquareBeanPanel extends JPanel {
 
     private GridBagConstraints gc;
 
-    private JLabel titleLbl, sideLenghtLbl, filePathLbl;
+    private JLabel titleLbl, sideLengthLbl, filePathLbl;
     private JTextField filePathTf, sideLengthTf;
     private JButton submitBtn, calcBtn;
     private JRadioButton serializeRb, deserializeRb;
+
+    private SquareBeanEventListener listener;
 
     public SquareBeanPanel() {
         this.initUI();
@@ -27,8 +31,8 @@ public class SquareBeanPanel extends JPanel {
         gc.fill = GridBagConstraints.HORIZONTAL;
         gc.gridx = 0;
         gc.gridy = 0;
-        gc.ipady = 120;
-        gc.gridwidth = 5;
+        gc.insets = new Insets(0, 0, 100, 0);
+        gc.gridwidth = 6;
 
         titleLbl = new JLabel("Obliczanie pola i obwodu kwadratu");
         titleLbl.setHorizontalAlignment(JLabel.CENTER);
@@ -38,12 +42,13 @@ public class SquareBeanPanel extends JPanel {
         gc.fill = GridBagConstraints.HORIZONTAL;
         gc.ipady = 15;
         gc.gridwidth = 1;
+        gc.insets = new Insets(0, 0, 0, 0);
         gc.gridx = 0;
         gc.gridy = 1;
 
-        sideLenghtLbl = new JLabel("Długość boku");
-        GuiTools.setLabelFont(sideLenghtLbl, 14);
-        this.add(sideLenghtLbl,gc);
+        sideLengthLbl = new JLabel("Długość boku");
+        GuiTools.setLabelFont(sideLengthLbl, 14);
+        this.add(sideLengthLbl, gc);
 
         gc.fill = GridBagConstraints.HORIZONTAL;
         gc.gridx = 4;
@@ -57,7 +62,7 @@ public class SquareBeanPanel extends JPanel {
         gc.ipadx = 20;
         gc.gridx = 0;
         gc.gridy = 2;
-        gc.insets = new Insets(0,0,20,20);
+        gc.insets = new Insets(0, 0, 20, 20);
 
         sideLengthTf = new JTextField(20);
         this.add(sideLengthTf, gc);
@@ -87,8 +92,81 @@ public class SquareBeanPanel extends JPanel {
         submitBtn = new JButton("Wykonaj");
         this.add(submitBtn, gc);
 
+        gc.fill = GridBagConstraints.HORIZONTAL;
+        gc.gridx = 5;
+        gc.gridy = 2;
+        gc.ipadx = 40;
+
+        ButtonGroup group = new ButtonGroup();
+
+        serializeRb = new JRadioButton("Zapisz wyniki do pliku");
+        this.add(serializeRb, gc);
+
+        gc.gridy = 3;
+
+        deserializeRb = new JRadioButton("Wczytaj dane z pliku");
+        this.add(deserializeRb, gc);
+
+        group.add(serializeRb);
+        group.add(deserializeRb);
+
+
+        calcBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    Double number = Double.parseDouble(sideLengthTf.getText());
+                    SquareBeanEvent event = new SquareBeanEvent(this, number, calcBtn.getText());
+
+                    if (listener != null) {
+                        listener.SquareBeanEventOccured(event);
+                    }
+                } catch (NumberFormatException nfe) {
+                    GuiTools.MessageBox("Nie wpisano liczby", "Błąd", JOptionPane.ERROR_MESSAGE);
+                }
+
+            }
+        });
+
+        submitBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String selectedElement = (serializeRb.isSelected()) ? serializeRb.getText() : deserializeRb.getText();
+                SquareBeanEvent event = new SquareBeanEvent(this, submitBtn.getText(), selectedElement);
+
+                if (listener != null) listener.SquareBeanEventOccured(event);
+            }
+        });
+
+
         this.setVisible(true);
     }
 
+    public JTextField getSideLengthTf() {
+        return sideLengthTf;
+    }
 
+    public JTextField getFilePathTf() {
+        return filePathTf;
+    }
+
+    public JButton getCalcBtn() {
+        return calcBtn;
+    }
+
+    public JButton getSubmitBtn() {
+        return submitBtn;
+    }
+
+    public JRadioButton getSerializeRb() {
+        return serializeRb;
+    }
+
+    public JRadioButton getDeserializeRb() {
+        return deserializeRb;
+    }
+
+    public void setListener(SquareBeanEventListener listener) {
+        this.listener = listener;
+    }
 }
