@@ -12,16 +12,31 @@ public class SquareBeanEvent extends EventObject {
      * @param source the object on which the Event initially occurred
      * @throws IllegalArgumentException if source is null
      */
+
+    //Kontruktor do obsługi obliczeń
     public SquareBeanEvent(Object source, Double number, String elementName) {
         super(source);
         this.number = number;
         this.elementName = elementName;
     }
 
-    public SquareBeanEvent(Object source, String elementName, String selectElement) {
+    //Kontruktor do obsługi deserializacji
+    public SquareBeanEvent(Object source, String elementName, String selectedElement) {
         super(source);
         this.elementName = elementName;
-        this.selectedElement = selectElement;
+        this.selectedElement = selectedElement;
+    }
+
+    //Kontruktor do obsługi deserializacji
+    public SquareBeanEvent(Object source, Double number, String elementName, String selectedElement) {
+        super(source);
+        this.number = number;
+        this.elementName = elementName;
+        this.selectedElement = selectedElement;
+    }
+
+    public String getSelectedElement() {
+        return selectedElement;
     }
 
     public String getElementName() {

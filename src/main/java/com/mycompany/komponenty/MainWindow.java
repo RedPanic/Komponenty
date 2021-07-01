@@ -14,6 +14,7 @@ import squarebean.SquareBean;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 import java.util.List;
 
 
@@ -43,7 +44,7 @@ public class MainWindow extends JFrame {
         squareBeanPanel.setListener(new SquareBeanEventListener() {
 
             @Override
-            public void SquareBeanEventOccured(SquareBeanEvent event) {
+            public void SquareBeanEventOccured(SquareBeanEvent event) throws IOException {
                 String elementName = event.getElementName();
                 SquareBean square = new SquareBean();
 
@@ -54,7 +55,15 @@ public class MainWindow extends JFrame {
                             + "Jego pole wynosi " + square.calcField(square.getSideLength());
                     GuiTools.MessageBox(msg, "Wyniki obliczeń", JOptionPane.INFORMATION_MESSAGE);
                 } else {
-                    //TODO wywołanie serializacji i deserializacji
+
+                    if(event.getSelectedElement().equals(squareBeanPanel.getSerializeRb().getText())){
+                        square.setSideLength(event.getNumber());
+                        square.serialize(squareBeanPanel.getFilePathTf().getText());
+                    }
+                    else{
+                        //TODO wywołanie serializacji i deserializacji
+                    }
+
                 }
             }
         });

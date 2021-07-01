@@ -3,9 +3,13 @@ package squarebean;
 import guitools.GuiTools;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.IOException;
 
 public class SquareBeanPanel extends JPanel {
 
@@ -100,6 +104,7 @@ public class SquareBeanPanel extends JPanel {
         ButtonGroup group = new ButtonGroup();
 
         serializeRb = new JRadioButton("Zapisz wyniki do pliku");
+        serializeRb.setSelected(true);
         this.add(serializeRb, gc);
 
         gc.gridy = 3;
@@ -121,7 +126,7 @@ public class SquareBeanPanel extends JPanel {
                     if (listener != null) {
                         listener.SquareBeanEventOccured(event);
                     }
-                } catch (NumberFormatException nfe) {
+                } catch (NumberFormatException | IOException nfe) {
                     GuiTools.MessageBox("Nie wpisano liczby", "Błąd", JOptionPane.ERROR_MESSAGE);
                 }
 
@@ -132,9 +137,40 @@ public class SquareBeanPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String selectedElement = (serializeRb.isSelected()) ? serializeRb.getText() : deserializeRb.getText();
-                SquareBeanEvent event = new SquareBeanEvent(this, submitBtn.getText(), selectedElement);
+                SquareBeanEvent event = null;
+                if (selectedElement.equals(serializeRb.getText())) {
+                    try {
+                        Double number = Double.parseDouble(sideLengthTf.getText());
+                        event = new SquareBeanEvent(this, number, submitBtn.getText(), selectedElement);
+                    } catch (NumberFormatException nfe) {
+                        GuiTools.MessageBox("Nie wpisano liczby", "Błąd", JOptionPane.ERROR_MESSAGE);
+                    }
+                } else {
+                    event = new SquareBeanEvent(this, submitBtn.getText(), selectedElement);
+                }
 
-                if (listener != null) listener.SquareBeanEventOccured(event);
+
+                if (listener != null) {
+                    try {
+                        listener.SquareBeanEventOccured(event);
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    }
+                }
+            }
+        });
+
+        filePathTf.addMouseListener(new MouseAdapter() {
+            public void mouseReleased(MouseEvent e) {
+                JFileChooser fileChooser = new JFileChooser();
+                FileNameExtensionFilter filter = new FileNameExtensionFilter(
+                        "Pliki testowe (*.txt)", "txt");
+                fileChooser.setFileFilter(filter);
+                int returnValue = fileChooser.showSaveDialog(new JDialog());
+                if (returnValue == JFileChooser.APPROVE_OPTION) {
+                    filePathTf.setText(fileChooser.getSelectedFile().getAbsolutePath());
+                }
+
             }
         });
 

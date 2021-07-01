@@ -5,6 +5,9 @@
  */
 package squarebean;
 
+import guitools.GuiTools;
+
+import javax.swing.*;
 import java.beans.ExceptionListener;
 import java.io.Serializable;
 import java.beans.XMLEncoder;
@@ -44,7 +47,7 @@ public class SquareBean implements Serializable {
         return sideLength * 4;
     }
 
-    private void serialize(String filename) throws IOException {
+    public void serialize(String filename) throws IOException {
         FileOutputStream fos = new FileOutputStream(filename);
         XMLEncoder encoder = new XMLEncoder(fos);
         encoder.setExceptionListener(new ExceptionListener() {
@@ -57,9 +60,10 @@ public class SquareBean implements Serializable {
         encoder.writeObject(this);
         encoder.close();
         fos.close();
+        GuiTools.MessageBox("Zapisano pomyślnie", "Zapis do pliku", JOptionPane.INFORMATION_MESSAGE);
     }
 
-    private SquareBean deserialize(String filename) throws IOException {
+    public SquareBean deserialize(String filename) throws IOException {
         FileInputStream fis = new FileInputStream(filename);
         XMLDecoder decoder = new XMLDecoder(fis);
         SquareBean deserialized = (SquareBean) decoder.readObject();
