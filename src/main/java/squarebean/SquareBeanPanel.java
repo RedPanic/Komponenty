@@ -103,13 +103,13 @@ public class SquareBeanPanel extends JPanel {
 
         ButtonGroup group = new ButtonGroup();
 
-        serializeRb = new JRadioButton("Zapisz wyniki do pliku");
+        serializeRb = new JRadioButton("Zapisz dane wejściowe do pliku");
         serializeRb.setSelected(true);
         this.add(serializeRb, gc);
 
         gc.gridy = 3;
 
-        deserializeRb = new JRadioButton("Wczytaj dane z pliku");
+        deserializeRb = new JRadioButton("Wczytaj dane wejściowe z pliku");
         this.add(deserializeRb, gc);
 
         group.add(serializeRb);
