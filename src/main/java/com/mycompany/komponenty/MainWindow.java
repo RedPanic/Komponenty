@@ -71,7 +71,7 @@ public class MainWindow extends JFrame {
             }
         });
 
-        tabs.addTab("Kwadrat", tabIcons.get(1), squareBeanPanel, "Operacje dla kwadratu");
+        tabs.addTab("Kwadrat", tabIcons.get(0), squareBeanPanel, "Operacje dla kwadratu");
 
         this.add(tabs);
         this.setVisible(true);
