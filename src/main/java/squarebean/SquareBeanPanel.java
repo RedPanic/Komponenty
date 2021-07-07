@@ -164,7 +164,7 @@ public class SquareBeanPanel extends JPanel {
             public void mouseReleased(MouseEvent e) {
                 JFileChooser fileChooser = new JFileChooser();
                 FileNameExtensionFilter filter = new FileNameExtensionFilter(
-                        "Pliki testowe (*.txt)", "txt");
+                        "XML Files (*.xml)", "xml");
                 fileChooser.setFileFilter(filter);
                 int returnValue = fileChooser.showSaveDialog(new JDialog());
                 if (returnValue == JFileChooser.APPROVE_OPTION) {

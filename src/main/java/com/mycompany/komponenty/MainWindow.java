@@ -34,7 +34,6 @@ public class MainWindow extends JFrame {
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         icon = Toolkit.getDefaultToolkit().getImage("src/main/java/static/calculator.png");
         this.setIconImage(icon);
-        this.setLocationRelativeTo(null);
         this.setSize(800, 600);
 
         tabs = new JTabbedPane();
