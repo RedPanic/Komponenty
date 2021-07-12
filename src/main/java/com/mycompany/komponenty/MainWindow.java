@@ -6,6 +6,7 @@
 package com.mycompany.komponenty;
 
 
+import circlebean.CircleBeanPanel;
 import guitools.GuiTools;
 import squarebean.SquareBeanEvent;
 import squarebean.SquareBeanEventListener;
@@ -27,6 +28,7 @@ public class MainWindow extends JFrame {
     private List<ImageIcon> tabIcons;
     private JTabbedPane tabs;
     private SquareBeanPanel squareBeanPanel;
+    private CircleBeanPanel circleBeanPanel;
 
 
     public MainWindow() {
@@ -70,7 +72,16 @@ public class MainWindow extends JFrame {
             }
         });
 
-        tabs.addTab("Kwadrat", tabIcons.get(0), squareBeanPanel, "Operacje dla kwadratu");
+        for (var icon:tabIcons) {
+            System.out.println(icon.getDescription());
+
+        }
+
+        tabs.addTab("Kwadrat", tabIcons.get(2), squareBeanPanel, "Operacje dla kwadratu");
+
+        circleBeanPanel = new CircleBeanPanel();
+
+        tabs.addTab("Koło i okrąg", tabIcons.get(0), circleBeanPanel, "Operacje dostępne dla koła i okręgu");
 
         this.add(tabs);
         this.setVisible(true);
