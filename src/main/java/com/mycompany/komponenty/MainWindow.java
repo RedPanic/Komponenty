@@ -6,7 +6,10 @@
 package com.mycompany.komponenty;
 
 
+import circlebean.CircleBean;
+import circlebean.CircleBeanEventListener;
 import circlebean.CircleBeanPanel;
+import circlebean.CirleBeanEvent;
 import guitools.GuiTools;
 import squarebean.SquareBeanEvent;
 import squarebean.SquareBeanEventListener;
@@ -57,12 +60,10 @@ public class MainWindow extends JFrame {
                     GuiTools.MessageBox(msg, "Wyniki obliczeń", JOptionPane.INFORMATION_MESSAGE);
                 } else {
 
-                    if(event.getSelectedElement().equals(squareBeanPanel.getSerializeRb().getText())){
+                    if (event.getSelectedElement().equals(squareBeanPanel.getSerializeRb().getText())) {
                         square.setSideLength(event.getNumber());
                         square.serialize(squareBeanPanel.getFilePathTf().getText());
-                    }
-                    else{
-                        //TODO wywołanie deserializacji
+                    } else {
                         square = square.deserialize(squareBeanPanel.getFilePathTf().getText());
                         squareBeanPanel.getSideLengthTf().setText(String.valueOf(square.getSideLength()));
 
@@ -72,14 +73,32 @@ public class MainWindow extends JFrame {
             }
         });
 
-        for (var icon:tabIcons) {
-            System.out.println(icon.getDescription());
-
-        }
-
         tabs.addTab("Kwadrat", tabIcons.get(2), squareBeanPanel, "Operacje dla kwadratu");
 
         circleBeanPanel = new CircleBeanPanel();
+
+        circleBeanPanel.setListener(new CircleBeanEventListener() {
+            @Override
+            public void CirleBeanEventOccured(CirleBeanEvent event) throws IOException {
+                String elementName = event.getElementName();
+                System.out.println(elementName);
+
+                if(elementName.equals(circleBeanPanel.getCalcBtn().getText())){
+                    if(event.getSelectedQuantity().equals(circleBeanPanel.getDiameterRb().getText())){
+                        CircleBean circleBean = new CircleBean(event.getNumber(), true);
+                        String msg = "Pole koła o promieniu: " + circleBean.getRing() + "\n"
+                                + "wynosi: " + circleBean.calcField(circleBean.getRing(), false)
+                                + ".\n" + "Jego obwód wynosi: " + circleBean.calcCircum(circleBean.getRing(), false)
+                                + ".\n";
+
+                        GuiTools.MessageBox(msg, "Wyniki obliczeń", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                    else{
+                        CircleBean circleBean = new CircleBean(event.getNumber(), false);
+                    }
+                }
+            }
+        });
 
         tabs.addTab("Koło i okrąg", tabIcons.get(0), circleBeanPanel, "Operacje dostępne dla koła i okręgu");
 

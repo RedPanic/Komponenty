@@ -14,13 +14,19 @@ import java.io.Serializable;
 
 public class CircleBean implements Serializable {
     private Double ring;
+    private boolean isDiameter;
 
     public CircleBean() {
 
     }
 
-    public CircleBean(Double ring) {
-        this.ring = ring;
+    public CircleBean(Double value, boolean isDiameter){
+        if(isDiameter){
+            this.ring = (value/2.0);
+        }
+        else{
+            this.ring = value;
+        }
     }
 
     public Double getRing() {

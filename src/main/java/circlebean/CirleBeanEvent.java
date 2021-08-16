@@ -48,4 +48,8 @@ public class CirleBeanEvent extends EventObject {
     public void setNumber(Double number) {
         this.number = number;
     }
+
+    public Double getNumber() {
+        return number;
+    }
 }
