@@ -4,13 +4,16 @@ import guitools.GuiTools;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
 
 
 
 /*
-*                       TODO:ADD OPERATION HANDLING!
-*
-* */
+ *                       TODO:ADD OPERATION HANDLING!
+ *
+ * */
 
 
 public class CircleBeanPanel extends JPanel {
@@ -78,6 +81,9 @@ public class CircleBeanPanel extends JPanel {
         filePathTf = new JTextField(15);
         this.add(filePathTf, gc);
 
+        ButtonGroup group1 = new ButtonGroup();
+        ButtonGroup group2 = new ButtonGroup();
+
         /*                      FOURTH ROW                          */
 
         gc.gridx = 0;
@@ -98,12 +104,14 @@ public class CircleBeanPanel extends JPanel {
         gc.gridy = 4;
 
         ringRb = new JRadioButton("Promień (r)");
+        ringRb.setSelected(true);
         this.add(ringRb, gc);
 
         gc.gridx = 5;
         gc.gridy = 4;
 
         serializeRb = new JRadioButton("Zapisz dane do pliku");
+        serializeRb.setSelected(true);
         this.add(serializeRb, gc);
 
         /*                      SIXTH ROW                          */
@@ -121,7 +129,78 @@ public class CircleBeanPanel extends JPanel {
         submitBtn = new JButton("Wykonaj");
         this.add(submitBtn, gc);
 
+        group1.add(ringRb);
+        group1.add(diameterRb);
+
+        group2.add(serializeRb);
+        group2.add(deserializeRb);
+
+        this.addListeners();
+
         this.setVisible(true);
+
+    }
+
+    private void addListeners() {
+
+        calcBtn.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String selectedElement = (diameterRb.isSelected()) ? diameterRb.getText() : ringRb.getText();
+                CircleBeanEvent event = null;
+
+                try {
+                    Double number = Double.parseDouble(lengthValueTf.getText());
+                    event = new CircleBeanEvent(this, number, calcBtn.getText(), selectedElement);
+                } catch (NumberFormatException nfe) {
+                    GuiTools.MessageBox("Nie wpisano liczby", "Błąd", JOptionPane.ERROR_MESSAGE);
+                }
+
+                if(listener != null){
+                    try {
+                        listener.CirleBeanEventOccured(event);
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    }
+                }
+
+            }
+        });
+
+        submitBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String selectedAction = (serializeRb.isSelected()) ? serializeRb.getText() : deserializeRb.getText();
+                CircleBeanEvent event = null;
+
+                if(selectedAction.equals(serializeRb.getText())){
+                    String selectedQuantity = (ringRb.isSelected() ) ? ringRb.getText() : diameterRb.getText();
+                    try {
+                        Double number = Double.parseDouble(lengthValueTf.getText());
+                        event = new CircleBeanEvent(this, number, submitBtn.getText(),selectedQuantity, selectedAction);
+                    }catch(NumberFormatException nfe){
+                        GuiTools.MessageBox("Nie wpisano liczby", "Błąd", JOptionPane.ERROR_MESSAGE);
+                    }
+
+
+                }
+                else{
+                    //Deserializacja
+
+
+                }
+
+                if(listener != null){
+                    try {
+                        listener.CirleBeanEventOccured(event);
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    }
+                }
+
+            }
+        });
 
     }
 

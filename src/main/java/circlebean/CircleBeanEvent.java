@@ -2,7 +2,7 @@ package circlebean;
 
 import java.util.EventObject;
 
-public class CirleBeanEvent extends EventObject {
+public class CircleBeanEvent extends EventObject {
     private Double number;
     private String elementName, selectedQuantity, selectedOperation;
 
@@ -12,20 +12,23 @@ public class CirleBeanEvent extends EventObject {
      * @param source the object on which the Event initially occurred
      * @throws IllegalArgumentException if source is null
      */
-    public CirleBeanEvent(Object source, Double number, String elementName, String selectedQuantity) {
+    public CircleBeanEvent(Object source, Double number, String elementName, String selectedQuantity) {
+        /* CALC BUTTON */
         super(source);
         this.number = number;
         this.selectedQuantity = selectedQuantity;
         this.elementName = elementName;
     }
 
-    public CirleBeanEvent(Object source, String elementName, String selectedOperation) {
+    public CircleBeanEvent(Object source, String elementName, String selectedOperation) {
+        /* SUBMIT BUTTON (READ) */
         super(source);
         this.elementName = elementName;
         this.selectedOperation = selectedOperation;
     }
 
-    public CirleBeanEvent(Object source, Double number, String elementName, String selectedQuantity, String selectedOperation) {
+    public CircleBeanEvent(Object source, Double number, String elementName, String selectedQuantity, String selectedOperation) {
+        /* SUBMIT BUTTON (WRITE) */
         super(source);
         this.number = number;
         this.elementName = elementName;

@@ -9,7 +9,7 @@ package com.mycompany.komponenty;
 import circlebean.CircleBean;
 import circlebean.CircleBeanEventListener;
 import circlebean.CircleBeanPanel;
-import circlebean.CirleBeanEvent;
+import circlebean.CircleBeanEvent;
 import guitools.GuiTools;
 import squarebean.SquareBeanEvent;
 import squarebean.SquareBeanEventListener;
@@ -73,13 +73,13 @@ public class MainWindow extends JFrame {
             }
         });
 
-        tabs.addTab("Kwadrat", tabIcons.get(2), squareBeanPanel, "Operacje dla kwadratu");
+        tabs.addTab("Kwadrat", tabIcons.get(1), squareBeanPanel, "Operacje dla kwadratu");
 
         circleBeanPanel = new CircleBeanPanel();
 
         circleBeanPanel.setListener(new CircleBeanEventListener() {
             @Override
-            public void CirleBeanEventOccured(CirleBeanEvent event) throws IOException {
+            public void CirleBeanEventOccured(CircleBeanEvent event) throws IOException {
                 String elementName = event.getElementName();
                 System.out.println(elementName);
 
@@ -87,20 +87,26 @@ public class MainWindow extends JFrame {
                     if(event.getSelectedQuantity().equals(circleBeanPanel.getDiameterRb().getText())){
                         CircleBean circleBean = new CircleBean(event.getNumber(), true);
                         String msg = "Pole koła o promieniu: " + circleBean.getRing() + "\n"
-                                + "wynosi: " + circleBean.calcField(circleBean.getRing(), false)
-                                + ".\n" + "Jego obwód wynosi: " + circleBean.calcCircum(circleBean.getRing(), false)
+                                + "wynosi: " + circleBean.calcField(circleBean.getRing())
+                                + ".\n" + "Jego obwód wynosi: " + circleBean.calcCircum(circleBean.getRing())
                                 + ".\n";
 
                         GuiTools.MessageBox(msg, "Wyniki obliczeń", JOptionPane.INFORMATION_MESSAGE);
                     }
                     else{
                         CircleBean circleBean = new CircleBean(event.getNumber(), false);
+                        String msg = "Pole koła o promieniu: " + circleBean.getRing() + "\n"
+                                + "wynosi: " + circleBean.calcField(circleBean.getRing())
+                                + ".\n" + "Jego obwód wynosi: " + circleBean.calcCircum(circleBean.getRing())
+                                + ".\n";
+
+                        GuiTools.MessageBox(msg, "Wyniki obliczeń", JOptionPane.INFORMATION_MESSAGE);
                     }
                 }
             }
         });
 
-        tabs.addTab("Koło i okrąg", tabIcons.get(0), circleBeanPanel, "Operacje dostępne dla koła i okręgu");
+        tabs.addTab("Koło i okrąg", tabIcons.get(2), circleBeanPanel, "Operacje dostępne dla koła i okręgu");
 
         this.add(tabs);
         this.setVisible(true);

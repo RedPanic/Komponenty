@@ -20,11 +20,10 @@ public class CircleBean implements Serializable {
 
     }
 
-    public CircleBean(Double value, boolean isDiameter){
-        if(isDiameter){
-            this.ring = (value/2.0);
-        }
-        else{
+    public CircleBean(Double value, boolean isDiameter) {
+        if (isDiameter) {
+            this.ring = (value / 2.0);
+        } else {
             this.ring = value;
         }
     }
@@ -37,27 +36,14 @@ public class CircleBean implements Serializable {
         this.ring = ring;
     }
 
-    public Double calcField(Double value, boolean isDiameter ){
-        Double field = null;
-        if(isDiameter){
-            field = Double.valueOf(Math.round(Math.PI * Math.pow((value/2),2)));
-        }
-        else{
-            field = Double.valueOf(Math.round(Math.PI * Math.pow(value,2)));
-        }
+    public Double calcField(Double value) {
+        Double field = Double.valueOf(Math.round(Math.PI * Math.pow(value, 2)));
 
         return field;
     }
 
-    public Double calcCircum(Double value, boolean isDiameter ){
-        Double circum = null;
-
-        if(isDiameter){
-            circum = 2 * Math.PI * (value / 2);
-        }
-        else{
-            circum = 2 * Math.PI * value;
-        }
+    public Double calcCircum(Double value) {
+        Double circum = 2 * Math.PI * value;
 
         return circum;
     }
@@ -78,7 +64,7 @@ public class CircleBean implements Serializable {
         GuiTools.MessageBox("Zapisano pomyślnie", "Zapis do pliku", JOptionPane.INFORMATION_MESSAGE);
     }
 
-    public CircleBean deserialize(String filename) throws  IOException{
+    public CircleBean deserialize(String filename) throws IOException {
         FileInputStream fis = new FileInputStream(filename);
         XMLDecoder decoder = new XMLDecoder(fis);
         CircleBean deserialized = (CircleBean) decoder.readObject();
