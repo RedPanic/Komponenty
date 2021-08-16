@@ -81,10 +81,10 @@ public class MainWindow extends JFrame {
             @Override
             public void CirleBeanEventOccured(CircleBeanEvent event) throws IOException {
                 String elementName = event.getElementName();
-                System.out.println(elementName);
 
-                if(elementName.equals(circleBeanPanel.getCalcBtn().getText())){
-                    if(event.getSelectedQuantity().equals(circleBeanPanel.getDiameterRb().getText())){
+
+                if (elementName.equals(circleBeanPanel.getCalcBtn().getText())) {
+                    if (event.getSelectedQuantity().equals(circleBeanPanel.getDiameterRb().getText())) {
                         CircleBean circleBean = new CircleBean(event.getNumber(), true);
                         String msg = "Pole koła o promieniu: " + circleBean.getRing() + "\n"
                                 + "wynosi: " + circleBean.calcField(circleBean.getRing())
@@ -92,8 +92,7 @@ public class MainWindow extends JFrame {
                                 + ".\n";
 
                         GuiTools.MessageBox(msg, "Wyniki obliczeń", JOptionPane.INFORMATION_MESSAGE);
-                    }
-                    else{
+                    } else {
                         CircleBean circleBean = new CircleBean(event.getNumber(), false);
                         String msg = "Pole koła o promieniu: " + circleBean.getRing() + "\n"
                                 + "wynosi: " + circleBean.calcField(circleBean.getRing())
@@ -102,6 +101,17 @@ public class MainWindow extends JFrame {
 
                         GuiTools.MessageBox(msg, "Wyniki obliczeń", JOptionPane.INFORMATION_MESSAGE);
                     }
+                } else {
+                    CircleBean bean = new CircleBean();
+                    if (event.getSelectedOperation().equals(circleBeanPanel.getSerializeRb().getText())) {
+                        bean = (circleBeanPanel.getRingRb().isSelected()) ? new CircleBean(event.getNumber(), false) : new CircleBean(event.getNumber(), true);
+                        bean.serialize(circleBeanPanel.getFilePathTf().getText());
+                    } else {
+                        bean = bean.deserialize(circleBeanPanel.getFilePathTf().getText());
+                        circleBeanPanel.getLengthValueTf().setText(String.valueOf(bean.getRing()));
+                        circleBeanPanel.getRingRb().setSelected(true);
+                    }
+
                 }
             }
         });

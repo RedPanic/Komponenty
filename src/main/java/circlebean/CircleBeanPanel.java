@@ -3,9 +3,12 @@ package circlebean;
 import guitools.GuiTools;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 
 
@@ -186,8 +189,7 @@ public class CircleBeanPanel extends JPanel {
 
                 }
                 else{
-                    //Deserializacja
-
+                    event = new CircleBeanEvent(this, submitBtn.getText(), selectedAction);
 
                 }
 
@@ -197,6 +199,20 @@ public class CircleBeanPanel extends JPanel {
                     } catch (IOException ioException) {
                         ioException.printStackTrace();
                     }
+                }
+
+            }
+        });
+
+        filePathTf.addMouseListener(new MouseAdapter() {
+            public void mouseReleased(MouseEvent e) {
+                JFileChooser fileChooser = new JFileChooser();
+                FileNameExtensionFilter filter = new FileNameExtensionFilter(
+                        "XML Files (*.xml)", "xml");
+                fileChooser.setFileFilter(filter);
+                int returnValue = fileChooser.showSaveDialog(new JDialog());
+                if (returnValue == JFileChooser.APPROVE_OPTION) {
+                    filePathTf.setText(fileChooser.getSelectedFile().getAbsolutePath());
                 }
 
             }
