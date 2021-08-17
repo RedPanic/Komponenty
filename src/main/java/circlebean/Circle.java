@@ -1,7 +1,6 @@
 package circlebean;
 
 import guitools.GuiTools;
-import squarebean.SquareBean;
 
 import javax.swing.*;
 import java.beans.ExceptionListener;
@@ -12,15 +11,15 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
 
-public class CircleBean implements Serializable {
+public class Circle implements Serializable {
     private Double ring;
     private boolean isDiameter;
 
-    public CircleBean() {
+    public Circle() {
 
     }
 
-    public CircleBean(Double value, boolean isDiameter) {
+    public Circle(Double value, boolean isDiameter) {
         if (isDiameter) {
             this.ring = (value / 2.0);
         } else {
@@ -64,10 +63,10 @@ public class CircleBean implements Serializable {
         GuiTools.MessageBox("Zapisano pomyślnie", "Zapis do pliku", JOptionPane.INFORMATION_MESSAGE);
     }
 
-    public CircleBean deserialize(String filename) throws IOException {
+    public Circle deserialize(String filename) throws IOException {
         FileInputStream fis = new FileInputStream(filename);
         XMLDecoder decoder = new XMLDecoder(fis);
-        CircleBean deserialized = (CircleBean) decoder.readObject();
+        Circle deserialized = (Circle) decoder.readObject();
         decoder.close();
         fis.close();
         return deserialized;

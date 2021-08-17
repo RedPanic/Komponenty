@@ -6,7 +6,8 @@
 package com.mycompany.komponenty;
 
 /**
- * @author new
+ * @author r00ser
+ *  Michał Postek
  */
 public class Main {
     public static void main(String args[]) {

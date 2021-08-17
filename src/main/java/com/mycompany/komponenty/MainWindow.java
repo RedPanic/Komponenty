@@ -6,7 +6,7 @@
 package com.mycompany.komponenty;
 
 
-import circlebean.CircleBean;
+import circlebean.Circle;
 import circlebean.CircleBeanEventListener;
 import circlebean.CircleBeanPanel;
 import circlebean.CircleBeanEvent;
@@ -14,7 +14,7 @@ import guitools.GuiTools;
 import squarebean.SquareBeanEvent;
 import squarebean.SquareBeanEventListener;
 import squarebean.SquareBeanPanel;
-import squarebean.SquareBean;
+import squarebean.Square;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,7 +23,8 @@ import java.util.List;
 
 
 /**
- * @author new
+ * @author r00ser
+ * Michał Postek
  */
 public class MainWindow extends JFrame {
 
@@ -50,7 +51,7 @@ public class MainWindow extends JFrame {
             @Override
             public void SquareBeanEventOccured(SquareBeanEvent event) throws IOException {
                 String elementName = event.getElementName();
-                SquareBean square = new SquareBean();
+                Square square = new Square();
 
                 if (elementName.equals(squareBeanPanel.getCalcBtn().getText())) {
                     square.setSideLength(event.getNumber());
@@ -85,7 +86,7 @@ public class MainWindow extends JFrame {
 
                 if (elementName.equals(circleBeanPanel.getCalcBtn().getText())) {
                     if (event.getSelectedQuantity().equals(circleBeanPanel.getDiameterRb().getText())) {
-                        CircleBean circleBean = new CircleBean(event.getNumber(), true);
+                        Circle circleBean = new Circle(event.getNumber(), true);
                         String msg = "Pole koła o promieniu: " + circleBean.getRing() + "\n"
                                 + "wynosi: " + circleBean.calcField(circleBean.getRing())
                                 + ".\n" + "Jego obwód wynosi: " + circleBean.calcCircum(circleBean.getRing())
@@ -93,7 +94,7 @@ public class MainWindow extends JFrame {
 
                         GuiTools.MessageBox(msg, "Wyniki obliczeń", JOptionPane.INFORMATION_MESSAGE);
                     } else {
-                        CircleBean circleBean = new CircleBean(event.getNumber(), false);
+                        Circle circleBean = new Circle(event.getNumber(), false);
                         String msg = "Pole koła o promieniu: " + circleBean.getRing() + "\n"
                                 + "wynosi: " + circleBean.calcField(circleBean.getRing())
                                 + ".\n" + "Jego obwód wynosi: " + circleBean.calcCircum(circleBean.getRing())
@@ -102,9 +103,9 @@ public class MainWindow extends JFrame {
                         GuiTools.MessageBox(msg, "Wyniki obliczeń", JOptionPane.INFORMATION_MESSAGE);
                     }
                 } else {
-                    CircleBean bean = new CircleBean();
+                    Circle bean = new Circle();
                     if (event.getSelectedOperation().equals(circleBeanPanel.getSerializeRb().getText())) {
-                        bean = (circleBeanPanel.getRingRb().isSelected()) ? new CircleBean(event.getNumber(), false) : new CircleBean(event.getNumber(), true);
+                        bean = (circleBeanPanel.getRingRb().isSelected()) ? new Circle(event.getNumber(), false) : new Circle(event.getNumber(), true);
                         bean.serialize(circleBeanPanel.getFilePathTf().getText());
                     } else {
                         bean = bean.deserialize(circleBeanPanel.getFilePathTf().getText());

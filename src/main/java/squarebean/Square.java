@@ -20,14 +20,14 @@ import java.io.IOException;
  *
  * @author new
  */
-public class SquareBean implements Serializable {
+public class Square implements Serializable {
 
     private double sideLength;
 
-    public SquareBean() {
+    public Square() {
     }
 
-    public SquareBean(double a) {
+    public Square(double a) {
         this.sideLength = a;
     }
 
@@ -63,10 +63,10 @@ public class SquareBean implements Serializable {
         GuiTools.MessageBox("Zapisano pomyślnie", "Zapis do pliku", JOptionPane.INFORMATION_MESSAGE);
     }
 
-    public SquareBean deserialize(String filename) throws IOException {
+    public Square deserialize(String filename) throws IOException {
         FileInputStream fis = new FileInputStream(filename);
         XMLDecoder decoder = new XMLDecoder(fis);
-        SquareBean deserialized = (SquareBean) decoder.readObject();
+        Square deserialized = (Square) decoder.readObject();
         decoder.close();
         fis.close();
         return deserialized;
