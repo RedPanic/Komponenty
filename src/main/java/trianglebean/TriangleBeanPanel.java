@@ -49,6 +49,12 @@ public class TriangleBeanPanel extends JPanel {
         descriptionLbl.setHorizontalAlignment(JLabel.CENTER);
         this.add(descriptionLbl, gc);
 
+
+        /*
+            TODO: FINNISH GUI AND ADD EVENT HANDLING
+        * */
+
+
         /*  THIRD ROW */
         /*  FOURTH ROW */
         /*  FIFTH ROW */
