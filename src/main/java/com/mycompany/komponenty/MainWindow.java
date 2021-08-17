@@ -15,6 +15,7 @@ import squarebean.SquareBeanEvent;
 import squarebean.SquareBeanEventListener;
 import squarebean.SquareBeanPanel;
 import squarebean.Square;
+import trianglebean.TriangleBeanPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -33,6 +34,7 @@ public class MainWindow extends JFrame {
     private JTabbedPane tabs;
     private SquareBeanPanel squareBeanPanel;
     private CircleBeanPanel circleBeanPanel;
+    private TriangleBeanPanel triangleBeanPanel;
 
 
     public MainWindow() {
@@ -118,6 +120,10 @@ public class MainWindow extends JFrame {
         });
 
         tabs.addTab("Koło i okrąg", tabIcons.get(2), circleBeanPanel, "Operacje dostępne dla koła i okręgu");
+
+        triangleBeanPanel = new TriangleBeanPanel();
+
+        tabs.addTab("Trójkąt", tabIcons.get(3), triangleBeanPanel, "Operacje dostępne dla trójkąta");
 
         this.add(tabs);
         this.setVisible(true);
