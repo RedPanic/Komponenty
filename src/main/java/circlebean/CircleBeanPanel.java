@@ -12,13 +12,6 @@ import java.awt.event.MouseEvent;
 import java.io.IOException;
 
 
-
-/*
- *                       TODO:ADD OPERATION HANDLING!
- *
- * */
-
-
 public class CircleBeanPanel extends JPanel {
     private GridBagConstraints gc;
 
@@ -160,7 +153,7 @@ public class CircleBeanPanel extends JPanel {
                     GuiTools.MessageBox("Nie wpisano liczby", "Błąd", JOptionPane.ERROR_MESSAGE);
                 }
 
-                if(listener != null){
+                if (listener != null) {
                     try {
                         listener.CirleBeanEventOccured(event);
                     } catch (IOException ioException) {
@@ -177,23 +170,22 @@ public class CircleBeanPanel extends JPanel {
                 String selectedAction = (serializeRb.isSelected()) ? serializeRb.getText() : deserializeRb.getText();
                 CircleBeanEvent event = null;
 
-                if(selectedAction.equals(serializeRb.getText())){
-                    String selectedQuantity = (ringRb.isSelected() ) ? ringRb.getText() : diameterRb.getText();
+                if (selectedAction.equals(serializeRb.getText())) {
+                    String selectedQuantity = (ringRb.isSelected()) ? ringRb.getText() : diameterRb.getText();
                     try {
                         Double number = Double.parseDouble(lengthValueTf.getText());
-                        event = new CircleBeanEvent(this, number, submitBtn.getText(),selectedQuantity, selectedAction);
-                    }catch(NumberFormatException nfe){
+                        event = new CircleBeanEvent(this, number, submitBtn.getText(), selectedQuantity, selectedAction);
+                    } catch (NumberFormatException nfe) {
                         GuiTools.MessageBox("Nie wpisano liczby", "Błąd", JOptionPane.ERROR_MESSAGE);
                     }
 
 
-                }
-                else{
+                } else {
                     event = new CircleBeanEvent(this, submitBtn.getText(), selectedAction);
 
                 }
 
-                if(listener != null){
+                if (listener != null) {
                     try {
                         listener.CirleBeanEventOccured(event);
                     } catch (IOException ioException) {
