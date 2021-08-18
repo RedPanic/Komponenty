@@ -30,7 +30,7 @@ public class TriangleBeanPanel extends JPanel {
         gc.fill = GridBagConstraints.HORIZONTAL;
         gc.gridx = 0;
         gc.gridy = 0;
-        gc.insets = new Insets(0, 100, 50, 100);
+        gc.insets = new Insets(0, 250, 30, 30);
         gc.gridwidth = 3;
 
         titleLbl = new JLabel("Obliczanie pola i obwodu trójkąta");
@@ -44,6 +44,7 @@ public class TriangleBeanPanel extends JPanel {
 
         gc.gridx = 0;
         gc.gridy = 1;
+        gc.insets = new Insets(0, 250, 50, 30);
 
         descriptionLbl = new JLabel("Dotyczy trójkąta różnobocznego");
         descriptionLbl.setHorizontalAlignment(JLabel.CENTER);
@@ -52,11 +53,31 @@ public class TriangleBeanPanel extends JPanel {
 
         /*
             TODO: FINNISH GUI AND ADD EVENT HANDLING
-        * */
+        */
 
 
         /*  THIRD ROW */
+
+        gc.gridx = 0;
+        gc.gridy = 2;
+        gc.gridwidth = 1;
+        gc.insets = new Insets(0, 70, 30, 100);
+
+        sidesLenghtLbl = new JLabel("Długość boków");
+        this.add(sidesLenghtLbl, gc);
+
+
+        gc.gridx = 3;
+        gc.gridy = 2;
+
+        filePathLbl = new JLabel("Ścieżka do pliku");
+        this.add(filePathLbl, gc);
+
+
         /*  FOURTH ROW */
+
+
+
         /*  FIFTH ROW */
         /*  SIXTH ROW */
         /*  SEVENTH ROW */

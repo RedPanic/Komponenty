@@ -123,7 +123,7 @@ public class MainWindow extends JFrame {
 
         triangleBeanPanel = new TriangleBeanPanel();
 
-        tabs.addTab("Trójkąt", tabIcons.get(3), triangleBeanPanel, "Operacje dostępne dla trójkąta");
+        tabs.addTab("Trójkąt", tabIcons.get(0), triangleBeanPanel, "Operacje dostępne dla trójkąta");
 
         this.add(tabs);
         this.setVisible(true);
