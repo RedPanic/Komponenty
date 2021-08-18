@@ -1,5 +1,6 @@
 package trianglebean;
 
+import circlebean.CircleBeanEvent;
 import guitools.GuiTools;
 
 import javax.swing.*;
@@ -57,9 +58,6 @@ public class TriangleBeanPanel extends JPanel {
         this.add(descriptionLbl, gc);
 
 
-        /*
-            TODO: FINNISH GUI AND ADD EVENT HANDLING
-        */
 
 
         /*  THIRD ROW */
@@ -200,8 +198,19 @@ public class TriangleBeanPanel extends JPanel {
                 TriangleBeanEvent event = null;
 
                 if (selectedOperation.equals(serializeRb.getText())) {
-                    //TODO: ADD SERIALIZATION EVENT
-                }else{
+
+                    try {
+                        Double sideA = Double.parseDouble(sideALengthTf.getText());
+                        Double sideB = Double.parseDouble(sideBLengthTf.getText());
+                        Double sideC = Double.parseDouble(sideCLengthTf.getText());
+                        Double height = Double.parseDouble(heightLengthTf.getText());
+                        event = new TriangleBeanEvent(this, sideA, sideB, sideC, height, submitBtn.getText(), serializeRb.getText());
+                    } catch (NumberFormatException nfe) {
+                        GuiTools.MessageBox("Nie wpisano liczby", "Błąd", JOptionPane.ERROR_MESSAGE);
+                    }
+
+
+                } else {
                     event = new TriangleBeanEvent(this, submitBtn.getText(), selectedOperation);
                 }
             }
