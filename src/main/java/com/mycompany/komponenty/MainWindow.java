@@ -11,6 +11,10 @@ import circlebean.CircleBeanEventListener;
 import circlebean.CircleBeanPanel;
 import circlebean.CircleBeanEvent;
 import guitools.GuiTools;
+import parallelogrambean.Parallelogram;
+import parallelogrambean.ParallelogramBeanEvent;
+import parallelogrambean.ParallelogramBeanEventListener;
+import parallelogrambean.ParallelogramBeanPanel;
 import squarebean.SquareBeanEvent;
 import squarebean.SquareBeanEventListener;
 import squarebean.SquareBeanPanel;
@@ -40,12 +44,13 @@ public class MainWindow extends JFrame implements ActionListener {
     private SquareBeanPanel squareBeanPanel;
     private CircleBeanPanel circleBeanPanel;
     private TriangleBeanPanel triangleBeanPanel;
+    private ParallelogramBeanPanel parallelogramBeanPanel;
 
 
     public MainWindow() {
         this.setTitle("Figures Calc v0.1");
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        icon = Toolkit.getDefaultToolkit().getImage("src/main/java/static/calculator.png");
+        icon = Toolkit.getDefaultToolkit().getImage("src/main/java/static/main/calculator.png");
         this.setIconImage(icon);
         this.setSize(800, 600);
 
@@ -71,7 +76,7 @@ public class MainWindow extends JFrame implements ActionListener {
         /* OTHER COMPONENTS */
 
         tabs = new JTabbedPane();
-        tabIcons = GuiTools.addIcons("src/main/java/static/");
+        tabIcons = GuiTools.addIcons("src/main/java/static/tabs");
 
         squareBeanPanel = new SquareBeanPanel();
         squareBeanPanel.setListener(new SquareBeanEventListener() {
@@ -102,7 +107,7 @@ public class MainWindow extends JFrame implements ActionListener {
             }
         });
 
-        tabs.addTab("Kwadrat", tabIcons.get(1), squareBeanPanel, "Operacje dla kwadratu");
+        tabs.addTab("Kwadrat", tabIcons.get(0), squareBeanPanel, "Operacje dla kwadratu");
 
         circleBeanPanel = new CircleBeanPanel();
 
@@ -145,7 +150,7 @@ public class MainWindow extends JFrame implements ActionListener {
             }
         });
 
-        tabs.addTab("Koło i okrąg", tabIcons.get(2), circleBeanPanel, "Operacje dostępne dla koła i okręgu");
+        tabs.addTab("Koło i okrąg", tabIcons.get(1), circleBeanPanel, "Operacje dostępne dla koła i okręgu");
 
         triangleBeanPanel = new TriangleBeanPanel();
 
@@ -187,7 +192,46 @@ public class MainWindow extends JFrame implements ActionListener {
             }
         });
 
-        tabs.addTab("Trójkąt", tabIcons.get(0), triangleBeanPanel, "Operacje dostępne dla trójkąta");
+        tabs.addTab("Trójkąt", tabIcons.get(2), triangleBeanPanel, "Operacje dostępne dla trójkąta");
+
+        parallelogramBeanPanel = new ParallelogramBeanPanel();
+
+        parallelogramBeanPanel.setListener(new ParallelogramBeanEventListener() {
+            @Override
+            public void parallelogramBeanEventOccured(ParallelogramBeanEvent event) throws IOException {
+                    String elementName = event.getElementName();
+                    Parallelogram parallelogram = new Parallelogram();
+
+                    if(elementName.equals(parallelogramBeanPanel.getCalcBtn().getText())){
+                        parallelogram.setSideALength(event.getSideA());
+                        parallelogram.setSideBLength(event.getSideB());
+                        parallelogram.setHeight(event.getHeight());
+
+                        String msg = "Pole równoległoboku o podstawie: " + parallelogram.getSideALength() + "\n" +
+                                "i wysokości: " + parallelogram.getHeight() + "\n" +
+                                "wynosi: " + parallelogram.calcField(parallelogram.getSideALength(), parallelogram.getHeight()) + "\n" +
+                                "Jego obwód wynosi: " + parallelogram.calcCircum(parallelogram.getSideALength(), parallelogram.getSideBLength());
+
+                        GuiTools.MessageBox(msg, "Wyniki obliczeń", JOptionPane.INFORMATION_MESSAGE);
+
+                    }else{
+                        if(event.getSelectedOperation().equals(triangleBeanPanel.getSerializeRb().getText())){
+                            parallelogram.setSideALength(event.getSideA());
+                            parallelogram.setSideBLength(event.getSideB());
+                            parallelogram.setHeight(event.getHeight());
+                            parallelogram.serialize(parallelogramBeanPanel.getFilePathTf().getText());
+
+                        }else{
+                            parallelogram = parallelogram.deserialize(parallelogramBeanPanel.getFilePathTf().getText());
+                            parallelogramBeanPanel.getSideALengthTf().setText(String.valueOf(parallelogram.getSideALength()));
+                            parallelogramBeanPanel.getSideBLengthTf().setText(String.valueOf(parallelogram.getSideBLength()));
+                            parallelogramBeanPanel.getHeightLengthTf().setText(String.valueOf(parallelogram.getHeight()));
+                        }
+                    }
+            }
+        });
+
+        tabs.addTab("Równoległobok", tabIcons.get(3), parallelogramBeanPanel, "Operacje dostępne dla równoległoboku");
 
         this.add(tabs);
         this.setVisible(true);
@@ -205,7 +249,7 @@ public class MainWindow extends JFrame implements ActionListener {
                 }
                 case "Zakończ":
                 {
-                    this.dispose();
+                    System.exit(0);
                     break;
                 }
                 default:
