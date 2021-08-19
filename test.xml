@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<java version="16.0.2" class="java.beans.XMLDecoder">
+ <object class="trianglebean.Triangle">
+  <void property="a">
+   <double>2.0</double>
+  </void>
+  <void property="b">
+   <double>3.0</double>
+  </void>
+  <void property="c">
+   <double>5.0</double>
+  </void>
+  <void property="height">
+   <double>6.0</double>
+  </void>
+ </object>
+</java>

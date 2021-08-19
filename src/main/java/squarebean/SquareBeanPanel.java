@@ -124,7 +124,7 @@ public class SquareBeanPanel extends JPanel {
                     SquareBeanEvent event = new SquareBeanEvent(this, number, calcBtn.getText());
 
                     if (listener != null) {
-                        listener.SquareBeanEventOccured(event);
+                        listener.squareBeanEventOccured(event);
                     }
                 } catch (NumberFormatException | IOException nfe) {
                     GuiTools.MessageBox("Nie wpisano liczby", "Błąd", JOptionPane.ERROR_MESSAGE);
@@ -152,7 +152,7 @@ public class SquareBeanPanel extends JPanel {
 
                 if (listener != null) {
                     try {
-                        listener.SquareBeanEventOccured(event);
+                        listener.squareBeanEventOccured(event);
                     } catch (IOException ioException) {
                         ioException.printStackTrace();
                     }

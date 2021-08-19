@@ -10,8 +10,9 @@ import java.beans.XMLEncoder;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.Serializable;
 
-public class Triangle {
+public class Triangle implements Serializable {
     private Double a, b, c, height, field, circum;
 
     public Triangle(){}

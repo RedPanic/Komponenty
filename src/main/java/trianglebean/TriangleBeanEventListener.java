@@ -3,5 +3,5 @@ package trianglebean;
 import java.io.IOException;
 
 public interface TriangleBeanEventListener {
-    void TriangleBeanEventOccured(TriangleBeanEvent event) throws IOException;
+    void triangleBeanEventOccured(TriangleBeanEvent event) throws IOException;
 }

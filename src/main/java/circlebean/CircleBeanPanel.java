@@ -155,7 +155,7 @@ public class CircleBeanPanel extends JPanel {
 
                 if (listener != null) {
                     try {
-                        listener.CirleBeanEventOccured(event);
+                        listener.circleBeanEventOccured(event);
                     } catch (IOException ioException) {
                         ioException.printStackTrace();
                     }
@@ -187,7 +187,7 @@ public class CircleBeanPanel extends JPanel {
 
                 if (listener != null) {
                     try {
-                        listener.CirleBeanEventOccured(event);
+                        listener.circleBeanEventOccured(event);
                     } catch (IOException ioException) {
                         ioException.printStackTrace();
                     }

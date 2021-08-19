@@ -15,10 +15,15 @@ import squarebean.SquareBeanEvent;
 import squarebean.SquareBeanEventListener;
 import squarebean.SquareBeanPanel;
 import squarebean.Square;
+import trianglebean.Triangle;
+import trianglebean.TriangleBeanEvent;
+import trianglebean.TriangleBeanEventListener;
 import trianglebean.TriangleBeanPanel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.List;
 
@@ -27,7 +32,7 @@ import java.util.List;
  * @author r00ser
  * Michał Postek
  */
-public class MainWindow extends JFrame {
+public class MainWindow extends JFrame implements ActionListener {
 
     private Image icon;
     private List<ImageIcon> tabIcons;
@@ -44,6 +49,27 @@ public class MainWindow extends JFrame {
         this.setIconImage(icon);
         this.setSize(800, 600);
 
+        /* MENU */
+
+        JMenuBar menuBar = new JMenuBar();
+        JMenu mainMenu = new JMenu("Program");
+        JMenuItem about = new JMenuItem("O programie..");
+        JMenuItem exit = new JMenuItem("Zakończ");
+
+        about.addActionListener(this);
+        exit.addActionListener(this);
+
+        mainMenu.add(about);
+        mainMenu.add(new JSeparator());
+        mainMenu.add(exit);
+
+        menuBar.add(mainMenu);
+
+        this.setJMenuBar(menuBar);
+
+
+        /* OTHER COMPONENTS */
+
         tabs = new JTabbedPane();
         tabIcons = GuiTools.addIcons("src/main/java/static/");
 
@@ -51,7 +77,7 @@ public class MainWindow extends JFrame {
         squareBeanPanel.setListener(new SquareBeanEventListener() {
 
             @Override
-            public void SquareBeanEventOccured(SquareBeanEvent event) throws IOException {
+            public void squareBeanEventOccured(SquareBeanEvent event) throws IOException {
                 String elementName = event.getElementName();
                 Square square = new Square();
 
@@ -82,7 +108,7 @@ public class MainWindow extends JFrame {
 
         circleBeanPanel.setListener(new CircleBeanEventListener() {
             @Override
-            public void CirleBeanEventOccured(CircleBeanEvent event) throws IOException {
+            public void circleBeanEventOccured(CircleBeanEvent event) throws IOException {
                 String elementName = event.getElementName();
 
 
@@ -123,6 +149,44 @@ public class MainWindow extends JFrame {
 
         triangleBeanPanel = new TriangleBeanPanel();
 
+        triangleBeanPanel.setListener(new TriangleBeanEventListener() {
+            @Override
+            public void triangleBeanEventOccured(TriangleBeanEvent event) throws IOException {
+                String elementName = event.getElementName();
+                Triangle triangle = new Triangle();
+
+                if(elementName.equals(triangleBeanPanel.getCalcBtn().getText())){
+                    triangle.setA(event.getSideA());
+                    triangle.setB(event.getSideB());
+                    triangle.setC(event.getSideC());
+                    triangle.setHeight(event.getHeight());
+
+                    String msg = "Pole trójkąta o podstawie: " + triangle.getA() + "\n"+
+                            "wynosi: " + triangle.calcField(triangle.getA(), triangle.getHeight()) + ".\n"+
+                            "Jego obwód wynosi: " + triangle.calcCircum(triangle.getA(), triangle.getB(), triangle.getC())+ ".";
+
+                    GuiTools.MessageBox(msg, "Wyniki obliczeń", JOptionPane.INFORMATION_MESSAGE);
+
+                }else{
+                    if(event.getSelectedOperation().equals(triangleBeanPanel.getSerializeRb().getText())){
+                        triangle.setA(event.getSideA());
+                        triangle.setB(event.getSideB());
+                        triangle.setC(event.getSideC());
+                        triangle.setHeight(event.getHeight());
+                        triangle.serialize(triangleBeanPanel.getFilePathTf().getText());
+
+                    }else{
+                        triangle = triangle.deserialize(triangleBeanPanel.getFilePathTf().getText());
+                        triangleBeanPanel.getSideALengthTf().setText(String.valueOf(triangle.getA()));
+                        triangleBeanPanel.getSideBLengthTf().setText(String.valueOf(triangle.getB()));
+                        triangleBeanPanel.getSideCLengthTf().setText(String.valueOf(triangle.getC()));
+                        triangleBeanPanel.getHeightLengthTf().setText(String.valueOf(triangle.getHeight()));
+                    }
+
+                }
+            }
+        });
+
         tabs.addTab("Trójkąt", tabIcons.get(0), triangleBeanPanel, "Operacje dostępne dla trójkąta");
 
         this.add(tabs);
@@ -130,4 +194,25 @@ public class MainWindow extends JFrame {
     }
 
 
+    @Override
+    public void actionPerformed(ActionEvent e) {
+            String actionCommand = e.getActionCommand();
+
+            switch(actionCommand) {
+                case "O programie..":{
+                    GuiTools.MessageBox("Program wykonany na potrzeby przedmiotu \"Zastosowanie programowania komponenetowego\".\n Wykonał: Michał Postek U-14847", "O programie", JOptionPane.INFORMATION_MESSAGE);
+                    break;
+                }
+                case "Zakończ":
+                {
+                    this.dispose();
+                    break;
+                }
+                default:
+                {
+                    GuiTools.MessageBox("Błąd wewnętrzny aplikacji", "Błąd", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+
+    }
 }

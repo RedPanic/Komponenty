@@ -1,6 +1,5 @@
 package trianglebean;
 
-import circlebean.CircleBeanEvent;
 import guitools.GuiTools;
 
 import javax.swing.*;
@@ -104,6 +103,7 @@ public class TriangleBeanPanel extends JPanel {
         gc.gridy = 4;
 
         deserializeRb = new JRadioButton("Wczytaj dane z pliku");
+        deserializeRb.setSelected(true);
         this.add(deserializeRb, gc);
 
         /*  SIXTH ROW */
@@ -180,7 +180,7 @@ public class TriangleBeanPanel extends JPanel {
                 if (listener != null) {
 
                     try {
-                        listener.TriangleBeanEventOccured(event);
+                        listener.triangleBeanEventOccured(event);
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }
@@ -213,6 +213,17 @@ public class TriangleBeanPanel extends JPanel {
                 } else {
                     event = new TriangleBeanEvent(this, submitBtn.getText(), selectedOperation);
                 }
+
+                if (listener != null) {
+
+                    try {
+                        listener.triangleBeanEventOccured(event);
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+
+
+                }
             }
         });
 
@@ -231,6 +242,13 @@ public class TriangleBeanPanel extends JPanel {
         });
     }
 
+    public TriangleBeanEventListener getListener() {
+        return listener;
+    }
+
+    public void setListener(TriangleBeanEventListener listener) {
+        this.listener = listener;
+    }
 
     public JTextField getSideALengthTf() {
         return sideALengthTf;
