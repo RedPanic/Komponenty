@@ -23,6 +23,10 @@ import squarebean.SquareBeanEvent;
 import squarebean.SquareBeanEventListener;
 import squarebean.SquareBeanPanel;
 import squarebean.Square;
+import trapezebean.Trapeze;
+import trapezebean.TrapezeBeanEvent;
+import trapezebean.TrapezeBeanEventListener;
+import trapezebean.TrapezeBeanPanel;
 import trianglebean.Triangle;
 import trianglebean.TriangleBeanEvent;
 import trianglebean.TriangleBeanEventListener;
@@ -50,6 +54,7 @@ public class MainWindow extends JFrame implements ActionListener {
     private TriangleBeanPanel triangleBeanPanel;
     private ParallelogramBeanPanel parallelogramBeanPanel;
     private DiamondBeanPanel diamondBeanPanel;
+    private TrapezeBeanPanel trapezeBeanPanel;
 
 
     public MainWindow() {
@@ -275,6 +280,54 @@ public class MainWindow extends JFrame implements ActionListener {
 
         tabs.addTab("Romb", tabIcons.get(4), diamondBeanPanel, "Operacje dostępne dla rombu");
 
+        trapezeBeanPanel = new TrapezeBeanPanel();
+
+        trapezeBeanPanel.setListener(new TrapezeBeanEventListener() {
+            @Override
+            public void trapezeBeanEventOccured(TrapezeBeanEvent event) throws IOException {
+                String elementName = event.getElementName();
+                Trapeze trapeze = new Trapeze();
+
+                if(elementName.equals(trapezeBeanPanel.getCalcBtn().getText())){
+                    trapeze.setSideA(event.getSideA());
+                    trapeze.setSideB(event.getSideB());
+                    trapeze.setSideC(event.getSideC());
+                    trapeze.setSideD(event.getSideD());
+                    trapeze.setHeight(event.getHeight());
+                    String sides = "("+ trapeze.getSideA() +", " + trapeze.getSideB() +", " + trapeze.getSideC() +", " + trapeze.getSideD() + ")";
+
+                    String msg = "Pole trapezu o bokach: " + sides + "\n" +
+                            "i wysokości: " + trapeze.getHeight() +"\n" +
+                            "wynosi: " + trapeze.calcField(trapeze.getSideA(), trapeze.getSideB(), trapeze.getHeight()) +"\n"+
+                            "Jego obwód wynosi: "+ trapeze.calcCircum(trapeze.getSideA(), trapeze.getSideB(), trapeze.getSideC(), trapeze.getSideD());
+
+                    GuiTools.MessageBox(msg, "Wyniki obliczeń", JOptionPane.INFORMATION_MESSAGE);
+
+                }else{
+
+                    if(event.getSelectedOperation().equals(trapezeBeanPanel.getSerializeRb().getText())){
+                        trapeze.setSideA(event.getSideA());
+                        trapeze.setSideB(event.getSideB());
+                        trapeze.setSideC(event.getSideC());
+                        trapeze.setSideD(event.getSideD());
+                        trapeze.setHeight(event.getHeight());
+                        trapeze.serialize(trapezeBeanPanel.getFilePathTf().getText());
+                    }else{
+                        trapeze = trapeze.deserialize(trapezeBeanPanel.getFilePathTf().getText());
+                        trapezeBeanPanel.getSideALengthTf().setText(String.valueOf(trapeze.getSideA()));
+                        trapezeBeanPanel.getSideBLengthTf().setText(String.valueOf(trapeze.getSideB()));
+                        trapezeBeanPanel.getSideCLengthTf().setText(String.valueOf(trapeze.getSideC()));
+                        trapezeBeanPanel.getSideDLengthTf().setText(String.valueOf(trapeze.getSideD()));
+                        trapezeBeanPanel.getHeightLengthTf().setText(String.valueOf(trapeze.getHeight()));
+
+                    }
+
+
+                }
+            }
+        });
+
+        tabs.addTab("Trapez", tabIcons.get(5), trapezeBeanPanel, "Operacje dostępne dla trapezu");
         
         this.add(tabs);
         this.setVisible(true);

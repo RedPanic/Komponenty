@@ -18,6 +18,11 @@ public class Diamond implements Serializable {
     public Diamond() {
     }
 
+    public Diamond(Double diameterE, Double diameterF) {
+        this.diameterE = diameterE;
+        this.diameterF = diameterF;
+    }
+
     public Double calcField(double diameterE, double diameterF) {
         Double field = (diameterE * diameterF) / 2;
         return field;
@@ -25,12 +30,7 @@ public class Diamond implements Serializable {
 
     public Double calcCircum(double diameterE, double diameterF) {
         Double sideLength = Math.sqrt((Math.pow(diameterE, 2) + Math.pow(diameterF, 2)));
-        return  sideLength * 4;
-    }
-
-    public Diamond(Double diameterE, Double diameterF) {
-        this.diameterE = diameterE;
-        this.diameterF = diameterF;
+        return sideLength * 4;
     }
 
     public Double getDiameterE() {

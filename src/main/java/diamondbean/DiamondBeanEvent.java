@@ -32,6 +32,7 @@ public class DiamondBeanEvent extends EventObject {
     }
 
     public DiamondBeanEvent(Object source, String elementName, String selectedOperation) {
+        /* SUBMIT BUTTON (READ) */
         super(source);
         this.elementName = elementName;
         this.selectedOperation = selectedOperation;

@@ -1,5 +1,6 @@
-package diamondbean;
+package trapezebean;
 
+import diamondbean.DiamondBeanEvent;
 import guitools.GuiTools;
 
 import javax.swing.*;
@@ -11,18 +12,17 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 
-public class DiamondBeanPanel extends JPanel {
-
-    private JLabel titleLbl, diametersLengthLbl, filePathLbl;
-    private JTextField diameterELengthTf, diameterFLengthTf, filePathTf;
+public class TrapezeBeanPanel extends JPanel {
+    private JLabel titleLbl, filePathLbl, sidesLengthLbl, heightLengthLbl;
+    private JTextField sideALengthTf, sideBLengthTf,sideCLengthTf,sideDLengthTf,heightLengthTf, filePathTf;
     private JButton calcBtn, submitBtn;
     private JRadioButton serializeRb, deserializeRb;
 
     private GridBagConstraints gc;
 
-    private DiamondBeanEventListener listener;
+    private TrapezeBeanEventListener listener;
 
-    public DiamondBeanPanel() {
+    public TrapezeBeanPanel() {
         this.initUI();
     }
 
@@ -39,7 +39,7 @@ public class DiamondBeanPanel extends JPanel {
         gc.insets = new Insets(0, 280, 50, 0);
         gc.gridwidth = 3;
 
-        titleLbl = new JLabel("Obliczanie pola i obwodu rombu");
+        titleLbl = new JLabel("Obliczanie pola i obwodu trapezu");
         titleLbl.setHorizontalAlignment(JLabel.CENTER);
         GuiTools.setLabelFont(titleLbl, 18);
         this.add(titleLbl, gc);
@@ -50,65 +50,95 @@ public class DiamondBeanPanel extends JPanel {
         gc.gridy = 1;
         gc.insets = new Insets(0, 50, 30, 30);
 
-        diametersLengthLbl = new JLabel("Długość przekątnych");
-        this.add(diametersLengthLbl, gc);
-
-        gc.gridx = 3;
-        gc.gridy = 1;
-
-        filePathLbl = new JLabel("Ścieżka do pliku");
-        this.add(filePathLbl, gc);
+        sidesLengthLbl = new JLabel("Długość boków");
+        this.add(sidesLengthLbl, gc);
 
         /* THIRD ROW */
 
         gc.gridx = 0;
         gc.gridy = 2;
 
-        diameterELengthTf = new JTextField();
-        this.add(diameterELengthTf, gc);
+        sideALengthTf = new JTextField("Podstawa dolna");
+        this.add(sideALengthTf, gc);
 
         gc.gridx = 3;
         gc.gridy = 2;
 
-        filePathTf = new JTextField();
-        this.add(filePathTf, gc);
+        filePathLbl = new JLabel("Ścieżka do pliku");
+        this.add(filePathLbl, gc);
 
         /* FOURTH ROW */
 
         gc.gridx = 0;
         gc.gridy = 3;
 
-        diameterFLengthTf = new JTextField();
-        this.add(diameterFLengthTf, gc);
+        sideBLengthTf = new JTextField("Podstawa górna");
+        this.add(sideBLengthTf, gc);
 
         gc.gridx = 3;
         gc.gridy = 3;
 
-        deserializeRb = new JRadioButton("Wczytaj dane z pliku");
-        deserializeRb.setSelected(true);
-        this.add(deserializeRb, gc);
+        filePathTf = new JTextField();
+        this.add(filePathTf, gc);
 
         /* FIFTH ROW */
 
         gc.gridx = 0;
         gc.gridy = 4;
 
-        calcBtn = new JButton("Oblicz");
-        this.add(calcBtn, gc);
+        sideCLengthTf = new JTextField();
+        this.add(sideCLengthTf, gc);
 
         gc.gridx = 3;
         gc.gridy = 4;
 
-        serializeRb = new JRadioButton("Zapisz dane do pliku");
-        this.add(serializeRb, gc);
+        deserializeRb = new JRadioButton("Wczytaj dane z pliku");
+        deserializeRb.setSelected(true);
+        this.add(deserializeRb, gc);
 
         /* SIXTH ROW */
+
+        gc.gridx = 0;
+        gc.gridy = 5;
+
+        sideDLengthTf = new JTextField();
+        this.add(sideDLengthTf, gc);
 
         gc.gridx = 3;
         gc.gridy = 5;
 
+        serializeRb = new JRadioButton("Zapisz dane do pliku");
+        this.add(serializeRb, gc);
+
+        /* SEVENTH ROW */
+
+        gc.gridx = 0;
+        gc.gridy = 6;
+
+        heightLengthLbl = new JLabel("Wysokość");
+        this.add(heightLengthLbl, gc);
+
+        gc.gridx = 3;
+        gc.gridy = 6;
+
         submitBtn = new JButton("Wykonaj");
         this.add(submitBtn, gc);
+
+        /* EIGHT ROW */
+
+        gc.gridx = 0;
+        gc.gridy = 7;
+
+        heightLengthTf = new JTextField();
+        this.add(heightLengthTf, gc);
+
+        /* NINETH ROW */
+
+        gc.gridx = 0;
+        gc.gridy = 8;
+
+        calcBtn = new JButton("Oblicz");
+        this.add(calcBtn, gc);
 
         ButtonGroup group = new ButtonGroup();
 
@@ -121,15 +151,18 @@ public class DiamondBeanPanel extends JPanel {
 
     private void addListeners() {
 
-        calcBtn.addActionListener(new ActionListener(){
+        calcBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                DiamondBeanEvent event = null;
+                TrapezeBeanEvent event = null;
 
                 try{
-                    Double diameterE = Double.parseDouble(diameterELengthTf.getText());
-                    Double diameterF = Double.parseDouble(diameterFLengthTf.getText());
-                    event = new DiamondBeanEvent(this, diameterE, diameterF, calcBtn.getText());
+                    Double sideA = Double.parseDouble(sideALengthTf.getText());
+                    Double sideB = Double.parseDouble(sideBLengthTf.getText());
+                    Double sideC = Double.parseDouble(sideCLengthTf.getText());
+                    Double sideD = Double.parseDouble(sideDLengthTf.getText());
+                    Double height = Double.parseDouble(heightLengthTf.getText());
+                    event = new TrapezeBeanEvent(this, sideA, sideB, sideC, sideD, height, calcBtn.getText());
 
                 }catch (NumberFormatException nfe) {
                     GuiTools.MessageBox("Nie wpisano liczby", "Błąd", JOptionPane.ERROR_MESSAGE);
@@ -138,7 +171,44 @@ public class DiamondBeanPanel extends JPanel {
                 if (listener != null) {
 
                     try {
-                        listener.diamondBeanEventOccured(event);
+                        listener.trapezeBeanEventOccured(event);
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+
+
+                }
+
+
+            }
+        });
+
+        submitBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String selectedOperation = (serializeRb.isSelected()) ? serializeRb.getText() : deserializeRb.getText();
+                TrapezeBeanEvent event = null;
+
+                if (selectedOperation.equals(serializeRb.getText())){
+                    try{
+                        Double sideA = Double.parseDouble(sideALengthTf.getText());
+                        Double sideB = Double.parseDouble(sideBLengthTf.getText());
+                        Double sideC = Double.parseDouble(sideCLengthTf.getText());
+                        Double sideD = Double.parseDouble(sideDLengthTf.getText());
+                        Double height = Double.parseDouble(heightLengthTf.getText());
+                        event = new TrapezeBeanEvent(this, sideA, sideB, sideC, sideD , height, submitBtn.getText(),serializeRb.getText());
+                    }catch(NumberFormatException nfe){
+                        GuiTools.MessageBox("Nie wpisano liczby", "Błąd", JOptionPane.ERROR_MESSAGE);
+                    }
+
+                }else{
+                    event = new TrapezeBeanEvent(this, submitBtn.getText(), deserializeRb.getText());
+                }
+
+                if (listener != null) {
+
+                    try {
+                        listener.trapezeBeanEventOccured(event);
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }
@@ -148,35 +218,15 @@ public class DiamondBeanPanel extends JPanel {
             }
         });
 
-        submitBtn.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String selectedOperation = (serializeRb.isSelected()) ? serializeRb.getText() : deserializeRb.getText();
-                DiamondBeanEvent event = null;
+        sideALengthTf.addMouseListener(new MouseAdapter() {
+            public void mouseReleased(MouseEvent e) {
+                sideALengthTf.setText("");
+            }
+        });
 
-                if (selectedOperation.equals(serializeRb.getText())) {
-                    try{
-                        Double diameterE = Double.parseDouble(diameterELengthTf.getText());
-                        Double diameterF = Double.parseDouble(diameterFLengthTf.getText());
-                        event = new DiamondBeanEvent(this, diameterE, diameterF, submitBtn.getText(),serializeRb.getText());
-                    }catch(NumberFormatException nfe){
-                        GuiTools.MessageBox("Nie wpisano liczby", "Błąd", JOptionPane.ERROR_MESSAGE);
-                    }
-                }else{
-                    event = new DiamondBeanEvent(this, submitBtn.getText(), deserializeRb.getText());
-                }
-
-                if (listener != null) {
-
-                    try {
-                        listener.diamondBeanEventOccured(event);
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
-
-
-                }
-
+        sideBLengthTf.addMouseListener(new MouseAdapter() {
+            public void mouseReleased(MouseEvent e) {
+                sideBLengthTf.setText("");
             }
         });
 
@@ -195,20 +245,44 @@ public class DiamondBeanPanel extends JPanel {
         });
     }
 
-    public JTextField getDiameterELengthTf() {
-        return diameterELengthTf;
+    public JTextField getSideALengthTf() {
+        return sideALengthTf;
     }
 
-    public void setDiameterELengthTf(JTextField diameterELengthTf) {
-        this.diameterELengthTf = diameterELengthTf;
+    public void setSideALengthTf(JTextField sideALengthTf) {
+        this.sideALengthTf = sideALengthTf;
     }
 
-    public JTextField getDiameterFLengthTf() {
-        return diameterFLengthTf;
+    public JTextField getSideBLengthTf() {
+        return sideBLengthTf;
     }
 
-    public void setDiameterFLengthTf(JTextField diameterFLengthTf) {
-        this.diameterFLengthTf = diameterFLengthTf;
+    public void setSideBLengthTf(JTextField sideBLengthTf) {
+        this.sideBLengthTf = sideBLengthTf;
+    }
+
+    public JTextField getSideCLengthTf() {
+        return sideCLengthTf;
+    }
+
+    public void setSideCLengthTf(JTextField sideCLengthTf) {
+        this.sideCLengthTf = sideCLengthTf;
+    }
+
+    public JTextField getSideDLengthTf() {
+        return sideDLengthTf;
+    }
+
+    public void setSideDLengthTf(JTextField sideDLengthTf) {
+        this.sideDLengthTf = sideDLengthTf;
+    }
+
+    public JTextField getHeightLengthTf() {
+        return heightLengthTf;
+    }
+
+    public void setHeightLengthTf(JTextField heightLengthTf) {
+        this.heightLengthTf = heightLengthTf;
     }
 
     public JTextField getFilePathTf() {
@@ -251,11 +325,11 @@ public class DiamondBeanPanel extends JPanel {
         this.deserializeRb = deserializeRb;
     }
 
-    public DiamondBeanEventListener getListener() {
+    public TrapezeBeanEventListener getListener() {
         return listener;
     }
 
-    public void setListener(DiamondBeanEventListener listener) {
+    public void setListener(TrapezeBeanEventListener listener) {
         this.listener = listener;
     }
 }
