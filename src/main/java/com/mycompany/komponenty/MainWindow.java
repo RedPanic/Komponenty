@@ -10,6 +10,10 @@ import circlebean.Circle;
 import circlebean.CircleBeanEventListener;
 import circlebean.CircleBeanPanel;
 import circlebean.CircleBeanEvent;
+import diamondbean.Diamond;
+import diamondbean.DiamondBeanEvent;
+import diamondbean.DiamondBeanEventListener;
+import diamondbean.DiamondBeanPanel;
 import guitools.GuiTools;
 import parallelogrambean.Parallelogram;
 import parallelogrambean.ParallelogramBeanEvent;
@@ -45,6 +49,7 @@ public class MainWindow extends JFrame implements ActionListener {
     private CircleBeanPanel circleBeanPanel;
     private TriangleBeanPanel triangleBeanPanel;
     private ParallelogramBeanPanel parallelogramBeanPanel;
+    private DiamondBeanPanel diamondBeanPanel;
 
 
     public MainWindow() {
@@ -232,6 +237,43 @@ public class MainWindow extends JFrame implements ActionListener {
         });
 
         tabs.addTab("Równoległobok", tabIcons.get(3), parallelogramBeanPanel, "Operacje dostępne dla równoległoboku");
+
+        diamondBeanPanel = new DiamondBeanPanel();
+
+        diamondBeanPanel.setListener(new DiamondBeanEventListener() {
+            @Override
+            public void diamondBeanEventOccured(DiamondBeanEvent event) throws IOException {
+                String elementName = event.getElementName();
+                Diamond diamond = new Diamond();
+
+                if(elementName.equals(diamondBeanPanel.getCalcBtn().getText())) {
+                    diamond.setDiameterE(event.getDiameterE());
+                    diamond.setDiameterF(event.getDiameterF());
+
+                    String msg = "Pole rombu o przekątnych: " + diamond.getDiameterE() +" oraz " +
+                            diamond.getDiameterF() +"\n"+
+                            "wynosi: " + diamond.calcField(diamond.getDiameterE(), diamond.getDiameterF()) + "\n" +
+                            "Jego obwód wynosi: "+ diamond.calcCircum(diamond.getDiameterE(), diamond.getDiameterF());
+
+                    GuiTools.MessageBox(msg, "Wyniki obliczeń", JOptionPane.INFORMATION_MESSAGE);
+
+                }else{
+                    if(event.getSelectedOperation().equals(diamondBeanPanel.getSerializeRb().getText())){
+                        diamond.setDiameterE(event.getDiameterE());
+                        diamond.setDiameterF(event.getDiameterF());
+                        diamond.serialize(diamondBeanPanel.getFilePathTf().getText());
+                    }else{
+                        diamond = diamond.deserialize(diamondBeanPanel.getFilePathTf().getText());
+                        diamondBeanPanel.getDiameterELengthTf().setText(String.valueOf(diamond.getDiameterE()));
+                        diamondBeanPanel.getDiameterFLengthTf().setText(String.valueOf(diamond.getDiameterF()));
+
+                    }
+                }
+
+            }
+        });
+
+        tabs.addTab("Romb", tabIcons.get(4), diamondBeanPanel, "Operacje dostępne dla rombu");
 
         
         this.add(tabs);

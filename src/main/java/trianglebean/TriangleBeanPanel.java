@@ -26,7 +26,7 @@ public class TriangleBeanPanel extends JPanel {
     }
 
     private void initUI() {
-        this.setPreferredSize(new Dimension(640, 480));
+        this.setPreferredSize(new Dimension(800, 600));
         this.setLayout(new GridBagLayout());
         this.gc = new GridBagConstraints();
 
@@ -50,7 +50,7 @@ public class TriangleBeanPanel extends JPanel {
 
         gc.gridx = 0;
         gc.gridy = 1;
-        gc.insets = new Insets(0, 280, 100, 0);
+        gc.insets = new Insets(0, 280, 50, 0);
 
         descriptionLbl = new JLabel("Dotyczy trójkąta różnobocznego");
         descriptionLbl.setHorizontalAlignment(JLabel.CENTER);
