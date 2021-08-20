@@ -19,7 +19,8 @@ public class GuiTools {
         String[] file_names = directory.list();
 
         String os  = System.getProperty("os.name");
-        if(os != "Windows"){
+
+        if(!os.contains("Windows")){
             file_names = reverseArray(file_names);
         }
 
