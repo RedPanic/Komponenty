@@ -17,6 +17,13 @@ public class GuiTools {
         List<ImageIcon> icons = new ArrayList<>();
         File directory = new File(path);
         String[] file_names = directory.list();
+
+        String os  = System.getProperty("os.name");
+        if(os != "Windows"){
+            file_names = reverseArray(file_names);
+        }
+
+
         if (file_names != null && file_names.length > 0) {
             for (String name : file_names) {
                 icons.add(new ImageIcon(path + '/' + name));
@@ -25,6 +32,17 @@ public class GuiTools {
         }
 
         return icons;
+    }
+
+    private static String[] reverseArray(String[] file_names) {
+        String [] output = new String[file_names.length];
+
+        for(int i = (file_names.length - 1),j = 0; i >= 0; i--, j++){
+            output[j] = file_names[i];
+
+        }
+
+        return output;
     }
 
     public static void MessageBox(String msg, String title, int messageType)

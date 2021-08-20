@@ -160,27 +160,27 @@ public class MainWindow extends JFrame implements ActionListener {
                 String elementName = event.getElementName();
                 Triangle triangle = new Triangle();
 
-                if(elementName.equals(triangleBeanPanel.getCalcBtn().getText())){
+                if (elementName.equals(triangleBeanPanel.getCalcBtn().getText())) {
                     triangle.setA(event.getSideA());
                     triangle.setB(event.getSideB());
                     triangle.setC(event.getSideC());
                     triangle.setHeight(event.getHeight());
 
-                    String msg = "Pole trójkąta o podstawie: " + triangle.getA() + "\n"+
-                            "wynosi: " + triangle.calcField(triangle.getA(), triangle.getHeight()) + ".\n"+
-                            "Jego obwód wynosi: " + triangle.calcCircum(triangle.getA(), triangle.getB(), triangle.getC())+ ".";
+                    String msg = "Pole trójkąta o podstawie: " + triangle.getA() + "\n" +
+                            "wynosi: " + triangle.calcField(triangle.getA(), triangle.getHeight()) + ".\n" +
+                            "Jego obwód wynosi: " + triangle.calcCircum(triangle.getA(), triangle.getB(), triangle.getC()) + ".";
 
                     GuiTools.MessageBox(msg, "Wyniki obliczeń", JOptionPane.INFORMATION_MESSAGE);
 
-                }else{
-                    if(event.getSelectedOperation().equals(triangleBeanPanel.getSerializeRb().getText())){
+                } else {
+                    if (event.getSelectedOperation().equals(triangleBeanPanel.getSerializeRb().getText())) {
                         triangle.setA(event.getSideA());
                         triangle.setB(event.getSideB());
                         triangle.setC(event.getSideC());
                         triangle.setHeight(event.getHeight());
                         triangle.serialize(triangleBeanPanel.getFilePathTf().getText());
 
-                    }else{
+                    } else {
                         triangle = triangle.deserialize(triangleBeanPanel.getFilePathTf().getText());
                         triangleBeanPanel.getSideALengthTf().setText(String.valueOf(triangle.getA()));
                         triangleBeanPanel.getSideBLengthTf().setText(String.valueOf(triangle.getB()));
@@ -199,40 +199,41 @@ public class MainWindow extends JFrame implements ActionListener {
         parallelogramBeanPanel.setListener(new ParallelogramBeanEventListener() {
             @Override
             public void parallelogramBeanEventOccured(ParallelogramBeanEvent event) throws IOException {
-                    String elementName = event.getElementName();
-                    Parallelogram parallelogram = new Parallelogram();
+                String elementName = event.getElementName();
+                Parallelogram parallelogram = new Parallelogram();
 
-                    if(elementName.equals(parallelogramBeanPanel.getCalcBtn().getText())){
+                if (elementName.equals(parallelogramBeanPanel.getCalcBtn().getText())) {
+                    parallelogram.setSideALength(event.getSideA());
+                    parallelogram.setSideBLength(event.getSideB());
+                    parallelogram.setHeight(event.getHeight());
+
+                    String msg = "Pole równoległoboku o podstawie: " + parallelogram.getSideALength() + "\n" +
+                            "i wysokości: " + parallelogram.getHeight() + "\n" +
+                            "wynosi: " + parallelogram.calcField(parallelogram.getSideALength(), parallelogram.getHeight()) + "\n" +
+                            "Jego obwód wynosi: " + parallelogram.calcCircum(parallelogram.getSideALength(), parallelogram.getSideBLength());
+
+                    GuiTools.MessageBox(msg, "Wyniki obliczeń", JOptionPane.INFORMATION_MESSAGE);
+
+                } else {
+                    if (event.getSelectedOperation().equals(triangleBeanPanel.getSerializeRb().getText())) {
                         parallelogram.setSideALength(event.getSideA());
                         parallelogram.setSideBLength(event.getSideB());
                         parallelogram.setHeight(event.getHeight());
+                        parallelogram.serialize(parallelogramBeanPanel.getFilePathTf().getText());
 
-                        String msg = "Pole równoległoboku o podstawie: " + parallelogram.getSideALength() + "\n" +
-                                "i wysokości: " + parallelogram.getHeight() + "\n" +
-                                "wynosi: " + parallelogram.calcField(parallelogram.getSideALength(), parallelogram.getHeight()) + "\n" +
-                                "Jego obwód wynosi: " + parallelogram.calcCircum(parallelogram.getSideALength(), parallelogram.getSideBLength());
-
-                        GuiTools.MessageBox(msg, "Wyniki obliczeń", JOptionPane.INFORMATION_MESSAGE);
-
-                    }else{
-                        if(event.getSelectedOperation().equals(triangleBeanPanel.getSerializeRb().getText())){
-                            parallelogram.setSideALength(event.getSideA());
-                            parallelogram.setSideBLength(event.getSideB());
-                            parallelogram.setHeight(event.getHeight());
-                            parallelogram.serialize(parallelogramBeanPanel.getFilePathTf().getText());
-
-                        }else{
-                            parallelogram = parallelogram.deserialize(parallelogramBeanPanel.getFilePathTf().getText());
-                            parallelogramBeanPanel.getSideALengthTf().setText(String.valueOf(parallelogram.getSideALength()));
-                            parallelogramBeanPanel.getSideBLengthTf().setText(String.valueOf(parallelogram.getSideBLength()));
-                            parallelogramBeanPanel.getHeightLengthTf().setText(String.valueOf(parallelogram.getHeight()));
-                        }
+                    } else {
+                        parallelogram = parallelogram.deserialize(parallelogramBeanPanel.getFilePathTf().getText());
+                        parallelogramBeanPanel.getSideALengthTf().setText(String.valueOf(parallelogram.getSideALength()));
+                        parallelogramBeanPanel.getSideBLengthTf().setText(String.valueOf(parallelogram.getSideBLength()));
+                        parallelogramBeanPanel.getHeightLengthTf().setText(String.valueOf(parallelogram.getHeight()));
                     }
+                }
             }
         });
 
         tabs.addTab("Równoległobok", tabIcons.get(3), parallelogramBeanPanel, "Operacje dostępne dla równoległoboku");
 
+        
         this.add(tabs);
         this.setVisible(true);
     }
@@ -240,23 +241,21 @@ public class MainWindow extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-            String actionCommand = e.getActionCommand();
+        String actionCommand = e.getActionCommand();
 
-            switch(actionCommand) {
-                case "O programie..":{
-                    GuiTools.MessageBox("Program wykonany na potrzeby przedmiotu \"Zastosowanie programowania komponenetowego\".\n Wykonał: Michał Postek U-14847", "O programie", JOptionPane.INFORMATION_MESSAGE);
-                    break;
-                }
-                case "Zakończ":
-                {
-                    System.exit(0);
-                    break;
-                }
-                default:
-                {
-                    GuiTools.MessageBox("Błąd wewnętrzny aplikacji", "Błąd", JOptionPane.ERROR_MESSAGE);
-                }
+        switch (actionCommand) {
+            case "O programie..": {
+                GuiTools.MessageBox("Program wykonany na potrzeby przedmiotu \"Zastosowanie programowania komponenetowego\".\n Wykonał: Michał Postek U-14847", "O programie", JOptionPane.INFORMATION_MESSAGE);
+                break;
             }
+            case "Zakończ": {
+                System.exit(0);
+                break;
+            }
+            default: {
+                GuiTools.MessageBox("Błąd wewnętrzny aplikacji", "Błąd", JOptionPane.ERROR_MESSAGE);
+            }
+        }
 
     }
 }
